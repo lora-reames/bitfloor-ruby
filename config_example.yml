@@ -1,3 +1,6 @@
+# sample configuration file for bitfloor-ruby
+# put your keys in the appropriate spaces bellow
+# rename this file config.yml
 development:
   url: 'https://api.testbed.bitfloor.com'
   key: 'your key here'

@@ -1,0 +1,8 @@
+development:
+  url: 'https://api.testbed.bitfloor.com'
+  key: 'your key here'
+  secret: 'your secret here'
+production:
+  url: 'https://api.bitfloor.com'
+  key: 'your key here'
+  secret: 'your secret here'

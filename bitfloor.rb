@@ -41,13 +41,15 @@ module BitFloor
       Remote.send('/order/details')
     end
 
+    # allows direct method like access to individual fields of an order object without the need for individual methods.
+    # example: some_order.status would return the status of the order object some_order
     def method_missing(method_name, *args, &block)
       @data = pull unless @data.responds_to? :fetch
       @data[method_name]
     end
   private
 
-    # THIS IS PROBABLY UN-NECCESARY pull will retieve order details from bitfloor	
+    #pull will retieve order details from bitfloor	
     def pull
     end
   end

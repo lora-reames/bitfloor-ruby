@@ -4,7 +4,7 @@
 # rename this file config.yml
 # if using different trade programs (such as bitfloor's node.js example) make a new set of keys for each or you might break your nonce.
 development:
-  url: 'https://api.testbed.bitfloor.com'
+  url: 'https://api.testnet.bitfloor.com'
   key: 'your key here'
   secret: 'your secret here'
 production:

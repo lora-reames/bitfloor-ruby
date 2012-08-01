@@ -57,7 +57,7 @@ module BitFloor
   # order.status
 
   class Accounts
-    def get
+    def self.list
       Remote.send('/accounts')
     end
   end

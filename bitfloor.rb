@@ -47,15 +47,12 @@ module BitFloor
     end
   private
 
-    # pull will retieve order details from bitfloor	
+    # THIS IS PROBABLY UN-NECCESARY pull will retieve order details from bitfloor	
     def pull
     end
   end
 
-  # sample ignore
-  # order = Order.new '/order/details', 1
-  # order.status
-
+  # list account balances
   class Accounts
     def self.list
       Remote.send('/accounts')
@@ -72,7 +69,7 @@ module BitFloor
     end
 
     # push withdrawl requests to bitfloor
-    def push
+    def save
     end
   end
 

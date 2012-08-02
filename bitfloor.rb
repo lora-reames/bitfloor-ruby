@@ -77,12 +77,12 @@ module BitFloor
     # create withdrawl objects
     def initialize(currency, amount, method, destination = nil)
       @data = {
-        currency: => currency,
-        amount: => amount,
-        method: => method
+        currency: currency,
+        amount: amount,
+        method: method
       }
       
-      @data.merge!(destination: => destination) unless destination.nil?
+      @data.merge!(destination: destination) unless destination.nil?
     end
 
     # send withdrawl requests to bitfloor

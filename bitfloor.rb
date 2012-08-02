@@ -15,42 +15,53 @@ require 'base64'
 module BitFloor
   # interact with orders on bitfloor
   class Order
+    BUY = 0
+    SELL = 1
+  
     # create order objects
-    def initialize(data, id = nil)
-      @data = data
-      @id = id
+    def initialize(data)
+      @data = {product_id: 1}.merge data
     end
 
     # list existing orders?
     def self.open_orders
-      Remote.send('/orders')
+      Remote.send('/orders').map { |data| Order.new data }
     end
 
     # save a local order to bitfloor
     def save
-      Remote.send('/order/new')
+      result = Remote.send '/order/new', @data
+      @data.merge! result
+    end
+    
+    def saved?
+      @data.has_key 'timestamp'
     end
 
     # cancel an existing order on bitfloor
     def cancel
-      Remote.send('/order/cancel')
+      Remote.send '/order/cancel', slice('order_id', 'product_id')
     end
 
     # retrieve details from bitfloor for a specific order
     def details
-      Remote.send('/order/details')
+      result = Remote.send '/order/details', slice('order_id')
+      @data.merge! result
     end
 
     # allows direct method like access to individual fields of an order object without the need for individual methods.
     # example: some_order.status would return the status of the order object some_order
-    def method_missing(method_name, *args, &block)
-      @data = pull unless @data.responds_to? :fetch
+    def method_missing(method_name)
+      super unless @data.has_key(method_name)
       @data[method_name]
     end
+    
   private
-
-    #pull will retieve order details from bitfloor	
-    def pull
+    
+    def slice(*keys)
+      result = {}
+      keys.each { |key| result[key] = @data[key] if @data.has_key?(key) }
+      result
     end
   end
 
@@ -64,14 +75,19 @@ module BitFloor
   # interact with bitfloor withdrawl requests
   class Withdrawl
     # create withdrawl objects
-    def initialize(currency, ammount, method, destination = nil)
-      @currency = currency
-      @ammount = ammount
-      @method = method
+    def initialize(currency, amount, method, destination = nil)
+      @data = {
+        currency: => currency,
+        amount: => amount,
+        method: => method
+      }
+      
+      @data.merge!(destination: => destination) unless destination.nil?
     end
 
-    # push withdrawl requests to bitfloor
+    # send withdrawl requests to bitfloor
     def save
+      Remote.send '/withdraw', @data
     end
   end
 
@@ -104,4 +120,10 @@ module BitFloor
       JSON.parse response
     end
   end
+end
+
+if $0 == __FILE__
+  order = BitFloor::Order.new :product_id => 1, :size => 5, :price => 8.70, :side => 0 # < 1.9
+  order = BitFloor::Order.new product_id: 1, size: 5, price: 8.70, side: 0 # >= 1.9
+  # BitFloor::Remote.send '/order/new', "product_id" => 1, "size" => 5, "price" => 8.70, "side" => 0
 end

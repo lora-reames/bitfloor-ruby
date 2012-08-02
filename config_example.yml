@@ -2,7 +2,8 @@
 # put your keys in the appropriate spaces bellow
 # NOTE! testbed accounts are entirely seperate and will need their own keys!
 # rename this file config.yml
-# if using different trade programs (such as bitfloor's node.js example) make a new set of keys for each or you might break your nonce.
+# if using different trade programs (such as bitfloor's node.js example) make a
+# new set of keys for each or you might break your nonce.
 development:
   url: 'https://api.testnet.bitfloor.com'
   key: 'your key here'

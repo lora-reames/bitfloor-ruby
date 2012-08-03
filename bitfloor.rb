@@ -40,12 +40,12 @@ module BitFloor
 
     # cancel an existing order on bitfloor
     def cancel
-      Remote.send '/order/cancel', slice('order_id', 'product_id')
+      Remote.send '/order/cancel', slice(:order_id, :product_id)
     end
 
     # retrieve details from bitfloor for a specific order
     def details
-      result = Remote.send '/order/details', slice('order_id')
+      result = Remote.send '/order/details', slice(:order_id)
       @data.merge! result
     end
 

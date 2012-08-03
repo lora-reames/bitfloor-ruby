@@ -117,7 +117,7 @@ module BitFloor
       body = QueryString.stringify(payload.merge 'nonce' => Time.now.to_i)
 
       response = @remote[suburl].post body, headers(body)
-      JSON.parse response
+      JSON.parse response, symbolize_names: true
     end
   end
 end

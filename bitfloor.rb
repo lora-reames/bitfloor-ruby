@@ -91,6 +91,22 @@ module BitFloor
     end
   end
   
+  # creates groups of orders to buy or sell a given ammount at the best available prices based on existing market data.
+  # if not told otherwise with arguments MarketOrder assumes the user is buying btc with usd
+  # work in progress
+  class MarketOrder
+    def initialize(product = 1, amount, side = 0)
+      market_order_balance = amount
+      while market_order_balance > 0 do
+        best_offer = MarketData.l1[:ask][0] # temporary- going to need more work to allow market orders to sell btc
+        best_offer_size = MarketData.l1[:ask][1]
+        market_order = Order.new product_id: product, size: best_offer_size, prize: best_offer, side: side
+        market_order.save
+        #unless market_order
+      end
+    end
+  end
+  
   # gets usable marketdata from bitfloor.
   class MarketData
     # get l1 book from bitfloor

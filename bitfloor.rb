@@ -90,7 +90,32 @@ module BitFloor
       Remote.send '/withdraw', @data
     end
   end
-
+  
+  # gets usable marketdata from bitfloor.
+  class MarketData
+    # get l1 book from bitfloor
+    def self.l1(product = 1)
+      responce = RestClient.get "https://api.bitfloor.com/book/L1/#{product}"
+      JSON.parse responce, symbolize_names: true
+    end
+    # get l2 book from bitfloor
+    def self.l2(product = 1)
+      responce = RestClient.get "https://api.bitfloor.com/book/L2/#{product}"
+      JSON.parse responce, symbolize_names: true
+    end
+    
+    # get most resent tick (on execution) from bitfloor
+    def self.tick(product = 1)
+      responce = RestClient.get "https://api.bitfloor.com/ticker/#{product}"
+      JSON.parse responce, symbolize_names: true
+    end
+    # get day info for past 24hrs from bitfloor
+    def self.day_info(product = 1)
+      responce = RestClient.get "https://api.bitfloor.com/day-info/#{product}"
+      JSON.parse responce, symbolize_names: true
+    end
+  end
+  
   class Remote
     def self.config(key)
       @env ||= ENV['RUBY_ENV'] || 'development'

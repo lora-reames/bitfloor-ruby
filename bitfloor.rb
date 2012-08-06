@@ -95,14 +95,27 @@ module BitFloor
   # if not told otherwise with arguments MarketOrder assumes the user is buying btc with usd
   # work in progress
   class MarketOrder
-    def initialize(product = 1, amount, side = 0)
+    attr_reader orders:
+    
+    def initialize(amount, side = 0, product = 1)
+      orders = [] # for storing the individual orders created by this market order
       market_order_balance = amount
       while market_order_balance > 0 do
         best_offer = MarketData.l1[:ask][0] # temporary- going to need more work to allow market orders to sell btc
         best_offer_size = MarketData.l1[:ask][1]
-        market_order = Order.new product_id: product, size: best_offer_size, prize: best_offer, side: side
-        market_order.save
-        #unless market_order
+        if best_offer_size*best_offer <= market_order_balance
+          order_size = best_offer_size
+        else
+          order_size = market_order_balance
+        end
+        market_order = Order.new product_id: product, size: order_size, price: best_offer, side: side
+        market_order.save #attempt to save order
+        if market_order.saved? == true #see if it worked and act accordingly
+          market_order_balance = market_order_balance - market_order.size*market_order.price
+        else
+          puts 'market order failed (responce info here)'
+        end
+        market_order >> orders #push this order into 'orders' for later refrence.
       end
     end
   end

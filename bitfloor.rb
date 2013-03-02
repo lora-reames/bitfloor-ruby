@@ -107,7 +107,9 @@ module BitFloor
       {
         'Content-Type'  => 'application/x-www-form-urlencoded',
         'bitfloor-key'  => config('key'),
-        'bitfloor-sign' => sign
+        'bitfloor-sign' => sign,
+        'bitfloor-passphrase' => config('passpharse'),
+        'bitfloor-version' => 1
       }
     end
 

@@ -4,11 +4,17 @@
 # rename this file config.yml
 # if using different trade programs (such as bitfloor's node.js example) make a
 # new set of keys for each or you might break your nonce.
+#
+# use ruby environmental variables to set you instance for development like so:
+# RUBY_ENV=development ruby bitfloor.rb
+#
 development:
   url: 'https://api.testnet.bitfloor.com'
   key: 'your key here'
   secret: 'your secret here'
+  passpharse: 'your passpharse'
 production:
   url: 'https://api.bitfloor.com'
   key: 'your key here'
   secret: 'your secret here'
+  passpharse: 'your passpharse'

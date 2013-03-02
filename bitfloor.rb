@@ -95,7 +95,7 @@ module BitFloor
   # if not told otherwise with arguments MarketOrder assumes the user is buying btc with usd
   # work in progress
   class MarketOrder
-    attr_reader orders:
+    attr_reader :orders
     
     def initialize(amount, side = 0, product = 1)
       orders = [] # for storing the individual orders created by this market order

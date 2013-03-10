@@ -156,7 +156,8 @@ module BitFloor
       sec_key = Base64.strict_decode64(config('secret'))
       hmac = OpenSSL::HMAC.new sec_key, OpenSSL::Digest::Digest.new('SHA512')
       sign = Base64.strict_encode64(hmac.update(body).digest)
-      puts sign
+      puts sign # debugging stuff delet line later
+      puts config('url') # debugging stuff delete line later
 
       {
         'Content-Type'  => 'application/x-www-form-urlencoded',
